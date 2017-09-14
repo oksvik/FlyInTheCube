@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Fly In The Cube</string>
+
+    <string name="action_size">Size</string>
+    <string name="action_2d">2D</string>
+    <string name="action_3d">3D</string>
+</resources>
