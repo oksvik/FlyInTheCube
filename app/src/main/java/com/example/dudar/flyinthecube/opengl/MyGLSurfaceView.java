@@ -3,10 +3,6 @@ package com.example.dudar.flyinthecube.opengl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-/**
- * Created by dudar on 21.09.2017.
- */
-
 public class MyGLSurfaceView extends GLSurfaceView {
 
     private final MyGLRenderer myRenderer;
@@ -17,7 +13,7 @@ public class MyGLSurfaceView extends GLSurfaceView {
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2);
 
-        myRenderer = new MyGLRenderer();
+        myRenderer = new MyGLRenderer(context);
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(myRenderer);
 
