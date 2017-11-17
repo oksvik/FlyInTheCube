@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 /**
  * Created by dudar on 25.08.2017.
@@ -35,11 +37,16 @@ public class GameboardButtonsFragment extends Fragment{
         //Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_gameboard_buttons, container, false);
 
+        final ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item,R.id.list_item_textview,GameLogUtils.getLogItems());
+        ListView listGameLog = (ListView) rootView.findViewById(R.id.log_list_2d);
+        listGameLog.setAdapter(itemAdapter);
+
         Button upButton = (Button) rootView.findViewById(R.id.up_btn);
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myCallBack.upClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button downButton = (Button)rootView.findViewById(R.id.down_btn);
@@ -47,6 +54,7 @@ public class GameboardButtonsFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 myCallBack.downClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button leftButton = (Button)rootView.findViewById(R.id.left_btn);
@@ -54,6 +62,7 @@ public class GameboardButtonsFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 myCallBack.leftClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button rightButton = (Button)rootView.findViewById(R.id.right_btn);
@@ -61,6 +70,7 @@ public class GameboardButtonsFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 myCallBack.rightClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
 

@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -16,7 +18,7 @@ import android.widget.TextView;
 
 public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFragment.OnPlayButtonClickListener, OnGameboard3DClickListener {
 
-    Button playBtn, checkBtn, restartBtn;
+    ImageButton playBtn, checkBtn, restartBtn;
     int rowPos, colPos, deepPos;
     int flyPosition;
     TextView gameoverTxt;
@@ -32,6 +34,10 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cube3d);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Gameboard_3D_Fragment gbFragment = new Gameboard_3D_Fragment();
@@ -47,9 +53,9 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
         tableRowNumber = 3;
         tableColumnNumber = 3;
 
-        playBtn = (Button) findViewById(R.id.play_btn);
-        checkBtn = (Button) findViewById(R.id.check_btn);
-        restartBtn = (Button) findViewById(R.id.restart_btn);
+        playBtn = (ImageButton) findViewById(R.id.play_btn);
+        checkBtn = (ImageButton) findViewById(R.id.check_btn);
+        restartBtn = (ImageButton) findViewById(R.id.restart_btn);
         checkBtn.setVisibility(View.GONE);
         restartBtn.setVisibility(View.GONE);
 
@@ -76,6 +82,9 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                 Intent newActivity = new Intent(this, MainActivity.class);
                 startActivity(newActivity);
                 return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             default:
                 return true;
         }
@@ -93,6 +102,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                 .replace(R.id.gameboard_container_3d, newFragment)
                 .commit();
         tableLayout.removeAllViews();
+        GameLogUtils.clearLog();
     }
 
     @Override
@@ -153,7 +163,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
         int columnItemWithFly = positionInLevel % 3;
         TableRow rowWithFly = (TableRow) tableLayout.getChildAt(rowItemWithFly);
         ImageView imgForFly = (ImageView) rowWithFly.getChildAt(columnItemWithFly);
-        imgForFly.setImageResource(R.drawable.fly_pic1);
+        imgForFly.setImageResource(R.drawable.my_fly1);
 
     }
 
@@ -170,19 +180,13 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
         flyPosition = 13;
         gameoverTxt.setVisibility(View.GONE);
 
-        tableLayout.removeAllViews();
-        paintTable(tableLayout, flyPosition);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Gameboard_3D_Fragment newFragment = new Gameboard_3D_Fragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.gameboard_container_3d, newFragment)
-                .commit();
+        onPlayClick();
     }
 
     @Override
     public void upClick() {
         rowPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
         if (checkBounds())
             flyPosition -= 3;
     }
@@ -203,6 +207,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     @Override
     public void downClick() {
         rowPos++;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_down));
         if (checkBounds())
             flyPosition += 3;
     }
@@ -210,6 +215,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     @Override
     public void leftClick() {
         colPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_left));
         if (checkBounds())
             flyPosition -= 1;
     }
@@ -217,6 +223,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     @Override
     public void rightClick() {
         colPos++;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_right));
         if (checkBounds())
             flyPosition += 1;
     }
@@ -224,6 +231,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     @Override
     public void forwardClick() {
         deepPos++;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_forward));
         if (checkBounds())
             flyPosition += 9;
     }
@@ -231,6 +239,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     @Override
     public void backClick() {
         deepPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_back));
         if (checkBounds())
             flyPosition -= 9;
     }

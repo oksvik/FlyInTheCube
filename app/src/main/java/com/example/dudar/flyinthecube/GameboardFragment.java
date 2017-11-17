@@ -55,13 +55,14 @@ public class GameboardFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_gameboard, container, false);
 
         TableLayout tableLayout = (TableLayout) rootView.findViewById(R.id.gameboard_table);
+
         for (int i = 0; i < TABLE_ROWS; i++) {
             TableRow tableRow = new TableRow(getContext());
             tableRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT));
             for (int j = 0; j < TABLE_COLUMNS; j++) {
                 ImageView imageView = new ImageView(getContext());
-                imageView.setImageResource(R.drawable.square_rounded);
+                imageView.setImageResource(R.drawable.square_rounded_128);
                 tableRow.addView(imageView, j);
             }
             tableLayout.addView(tableRow, i);
@@ -73,7 +74,7 @@ public class GameboardFragment extends Fragment {
         }
 
         ImageView imgForFly = (ImageView) rowWithFly.getChildAt(columnItemWithFly);
-        imgForFly.setImageResource(R.drawable.fly_pic1);
+        imgForFly.setImageResource(R.drawable.my_fly1);
 
         return rootView;
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Муха в Кубе</string>
+    <string name="game_action_up">Вверх</string>
+    <string name="game_action_back">Назад</string>
+    <string name="game_action_down">Вниз</string>
+    <string name="game_action_forward">Вперед</string>
+    <string name="game_action_left">Налево</string>
+    <string name="game_action_right">Направо</string>
+    <string name="game_log">Последние ходы</string>
+    <string name="name_2d">2D игра</string>
+    <string name="name_3d">3D игра</string>
+
+    <string name="help_base">Это упражнение-игра помогает развивать воображение, пространственное мышление и произвольное внимание.</string>
+    <string name="help_field">Игровое поле представляет собой куб (3D вариант) или — квадрат (2D вариант).</string>
+    <string name="help_fly"> В игровом поле находится объект игры — муха.  Исходное положение “мухи” — центральная клетка игрового поля (в 3D версии- муха повернута спиной к игроку). </string>
+    <string name="help_player">Когда игрок делает ход, он перемещает муху на одну клетку по любому из измерений игрового пространства (влево — вправо, вперед — назад, вниз — вверх). Задача игрока — не выпустить муху за пределы игрового поля.</string>
+
+
+    <string name="play_2d">Играть в 2D</string>
+    <string name="play_3d">Играть в 3D</string>
+    <string name="start_titel">Полетели!</string>
+
+</resources>

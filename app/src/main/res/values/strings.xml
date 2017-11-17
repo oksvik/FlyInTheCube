@@ -1,7 +1,26 @@
 <resources>
     <string name="app_name">Fly In The Cube</string>
 
-    <string name="action_size">Size</string>
-    <string name="action_2d">2D</string>
-    <string name="action_3d">3D</string>
+    <string name="action_size" translatable="false">Size</string>
+    <string name="action_2d" translatable="false">2D</string>
+    <string name="action_3d" translatable="false">3D</string>
+
+    <string name="game_action_up">Up</string>
+    <string name="game_action_down">Down</string>
+    <string name="game_action_left">Left</string>
+    <string name="game_action_right">Right</string>
+    <string name="game_action_back">Back</string>
+    <string name="game_action_forward">Forward</string>
+    <string name="game_log">Your last steps</string>
+    <string name="name_2d">2D Game</string>
+    <string name="name_3d">3D Game</string>
+
+    <string name="help_base">This brain game helps to develop imagination, spatial thinking and voluntary attention.</string>
+    <string name="help_field">The game field is a cube (3D variant) or - a square (2D variant). </string>
+    <string name="help_fly">In the playing field is the object of the game - the fly. The initial position of the \"fly\" is the central cell of the playing field (in 3D version - the fly is turned with its back to the player).</string>
+    <string name="help_player">When a player makes a move, he moves the fly one cell on any of the dimensions of the game space (left-right, forward-backward, down-up). The player\'s task is not to let the fly out of the playing field.</string>
+
+    <string name="play_2d">Play 2D</string>
+    <string name="play_3d">Play 3D</string>
+    <string name="start_titel">Let\'s fly!</string>
 </resources>

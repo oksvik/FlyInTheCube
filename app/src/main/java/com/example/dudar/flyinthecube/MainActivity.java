@@ -3,16 +3,19 @@ package com.example.dudar.flyinthecube;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements InPlayButtonsFragment.OnPlayButtonClickListener, OnGameboardClickListener {
 
-    Button playBtn, checkBtn, restartBtn;
+    ImageButton playBtn;
+    ImageButton checkBtn, restartBtn;
     int rowPos, colPos;
     TextView gameoverTxt;
     static final int TABLE_SIZE = 5;
@@ -24,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Load the saved state if there is one
         /*if (savedInstanceState != null) {
@@ -40,15 +47,9 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
                 .add(R.id.gameboard_container, gbFragment)
                 .commit();
 
-        //InPlayButtonsFragment inPlayButtonsFragment = new InPlayButtonsFragment();
-        //PlayButtonFragment playBtn = new PlayButtonFragment();
-        //fragmentManager.beginTransaction()
-        //        .add(R.id.buttons_container,inPlayButtonsFragment)
-        //        .commit();
-
-        playBtn = (Button) findViewById(R.id.play_btn);
-        checkBtn = (Button) findViewById(R.id.check_btn);
-        restartBtn = (Button) findViewById(R.id.restart_btn);
+       playBtn = (ImageButton) findViewById(R.id.play_btn);
+        checkBtn = (ImageButton) findViewById(R.id.check_btn);
+        restartBtn = (ImageButton) findViewById(R.id.restart_btn);
         checkBtn.setVisibility(View.GONE);
         restartBtn.setVisibility(View.GONE);
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
         fragmentManager.beginTransaction()
                 .replace(R.id.gameboard_container, newFragment)
                 .commit();
+        GameLogUtils.clearLog();
     }
 
     @Override
@@ -92,19 +94,15 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
         playBtn.setVisibility(View.VISIBLE);
         rowPos = 2;
         colPos = 2;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        GameboardFragment newFragment = new GameboardFragment();
-        newFragment.setColumnItemWithFly(2);
-        newFragment.setRowItemWithFly(2);
-        fragmentManager.beginTransaction()
-                .replace(R.id.gameboard_container, newFragment)
-                .commit();
         gameoverTxt.setVisibility(View.GONE);
+
+        onPlayClick();
     }
 
     @Override
     public void upClick() {
         rowPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
         checkBounds();
     }
 
@@ -115,8 +113,7 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
     }
 
     private void endGame() {
-        //Toast.makeText(this, "Game over", Toast.LENGTH_SHORT).show();
-        gameoverTxt.setVisibility(View.VISIBLE);
+         gameoverTxt.setVisibility(View.VISIBLE);
         checkBtn.setVisibility(View.GONE);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -131,18 +128,21 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
     @Override
     public void downClick() {
         rowPos++;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_down));
         checkBounds();
     }
 
     @Override
     public void leftClick() {
         colPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_left));
         checkBounds();
     }
 
     @Override
     public void rightClick() {
         colPos++;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_right));
         checkBounds();
     }
 
@@ -168,6 +168,10 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
                 Intent newActivity = new Intent(this,Cube3DActivity.class);
                 startActivity(newActivity);
                 return true;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
             default:
                 return true;
         }

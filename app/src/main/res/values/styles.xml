@@ -8,4 +8,27 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="StartButton" >
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">75dp</item>
+        <item name="android:minWidth">288dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/button_margin</item>
+        <item name="android:background">@drawable/start_btn_selector</item>
+    </style>
+
+    <style name="HelpText" >
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">@dimen/help_text_margin</item>
+        <item name="android:layout_marginRight">@dimen/help_text_margin</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/textPrimaryLight</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

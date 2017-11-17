@@ -4,10 +4,10 @@
     <item
         android:id="@+id/action_2d"
         android:title="@string/action_2d"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_3d"
         android:title="@string/action_3d"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>

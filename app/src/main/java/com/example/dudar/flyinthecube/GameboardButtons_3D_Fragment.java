@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 /**
  * Created by dudar on 20.09.2017.
@@ -35,11 +37,18 @@ public class GameboardButtons_3D_Fragment extends Fragment {
         //Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_gameboard_3d_buttons, container, false);
 
+        //final ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,GameLogUtils.getLogItems());
+        final ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item,R.id.list_item_textview,GameLogUtils.getLogItems());
+        ListView listGameLog = (ListView) rootView.findViewById(R.id.log_list);
+        listGameLog.setAdapter(itemAdapter);
+
+
         Button upButton = (Button) rootView.findViewById(R.id.up_3d_btn);
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myCallBack.upClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button downButton = (Button)rootView.findViewById(R.id.down_3d_btn);
@@ -47,6 +56,7 @@ public class GameboardButtons_3D_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myCallBack.downClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button leftButton = (Button)rootView.findViewById(R.id.left_3d_btn);
@@ -54,6 +64,7 @@ public class GameboardButtons_3D_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myCallBack.leftClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button rightButton = (Button)rootView.findViewById(R.id.right_3d_btn);
@@ -61,6 +72,7 @@ public class GameboardButtons_3D_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myCallBack.rightClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
 
@@ -69,6 +81,7 @@ public class GameboardButtons_3D_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myCallBack.forwardClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
         Button backButton = (Button) rootView.findViewById(R.id.back_3d_btn);
@@ -76,6 +89,7 @@ public class GameboardButtons_3D_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myCallBack.backClick();
+                itemAdapter.notifyDataSetChanged();
             }
         });
 

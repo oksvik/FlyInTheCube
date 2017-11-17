@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=">>"
+        android:paddingLeft="@dimen/list_item_padding"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:paddingLeft="@dimen/list_item_padding"
+        android:gravity="center_vertical"
+        tools:text="@string/game_action_back"
+        android:id="@+id/list_item_textview"/>
+
+
+</LinearLayout>

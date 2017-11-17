@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * Created by dudar on 25.08.2017.
@@ -52,11 +52,9 @@ public class InPlayButtonsFragment extends Fragment {
         //Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_inplay_buttons, container, false);
 
-        Button playBtn = (Button) rootView.findViewById(R.id.play_btn);
-        Button checkBtn = (Button) rootView.findViewById(R.id.check_btn);
-        Button restartBtn = (Button) rootView.findViewById(R.id.restart_btn);
-        //checkBtn.setVisibility(View.GONE);
-        //restartBtn.setVisibility(View.GONE);
+        ImageButton playBtn = (ImageButton) rootView.findViewById(R.id.play_btn);
+        ImageButton checkBtn = (ImageButton) rootView.findViewById(R.id.check_btn);
+        ImageButton restartBtn = (ImageButton) rootView.findViewById(R.id.restart_btn);
 
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
