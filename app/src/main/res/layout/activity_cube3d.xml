@@ -26,6 +26,7 @@
             android:id="@+id/table3d"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/base_margin"
             >
 
         </TableLayout>

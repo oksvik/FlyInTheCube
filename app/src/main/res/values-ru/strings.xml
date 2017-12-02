@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Муха в Кубе</string>
-    <string name="game_action_up">Вверх</string>
-    <string name="game_action_back">Назад</string>
-    <string name="game_action_down">Вниз</string>
-    <string name="game_action_forward">Вперед</string>
-    <string name="game_action_left">Налево</string>
-    <string name="game_action_right">Направо</string>
+    <string name="game_action_up">>> Вверх</string>
+    <string name="game_action_back">>> Назад</string>
+    <string name="game_action_down">>> Вниз</string>
+    <string name="game_action_forward">>> Вперед</string>
+    <string name="game_action_left">>> Влево</string>
+    <string name="game_action_right">>> Вправо</string>
     <string name="game_log">Последние ходы</string>
     <string name="name_2d">2D игра</string>
     <string name="name_3d">3D игра</string>
@@ -20,5 +20,9 @@
     <string name="play_2d">Играть в 2D</string>
     <string name="play_3d">Играть в 3D</string>
     <string name="start_titel">Полетели!</string>
+    <string name="help_check">Проверить положение мухи на игровом поле</string>
+    <string name="help_restart">Начать игру заново</string>
+    <string name="player">Игрок</string>
+    <string name="andro">Андроид</string>
 
 </resources>

@@ -22,8 +22,6 @@ public class GameboardFragment extends Fragment {
     public static final String ROW_ITEM_WITH_FLY = "row_item";
     public static final String COLUMN_ITEM_WITH_FLY = "column_item";
 
-    static final int GAMEOVER_POSITION = 5;
-
     private int rowItemWithFly;
     private int columnItemWithFly;
 
@@ -68,11 +66,6 @@ public class GameboardFragment extends Fragment {
             tableLayout.addView(tableRow, i);
         }
         TableRow rowWithFly = (TableRow) tableLayout.getChildAt(rowItemWithFly);
-        if (columnItemWithFly == GAMEOVER_POSITION) {
-            ImageView imageView = new ImageView(getContext());
-            rowWithFly.addView(imageView, GAMEOVER_POSITION);
-        }
-
         ImageView imgForFly = (ImageView) rowWithFly.getChildAt(columnItemWithFly);
         imgForFly.setImageResource(R.drawable.my_fly1);
 

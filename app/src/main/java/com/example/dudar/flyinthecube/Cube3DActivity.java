@@ -16,6 +16,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFragment.OnPlayButtonClickListener, OnGameboard3DClickListener {
 
     ImageButton playBtn, checkBtn, restartBtn;
@@ -29,6 +31,13 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     static final int FIRST_BLUE_CUBE_LEVEL = 0;
     static final int SECOND_GREEN_CUBE_LEVEL = 1;
     static final int THIRD_ORANGE_CUBE_LEVEL = 2;
+
+    static final int BOT_STEP_UP = 0;
+    static final int BOT_STEP_DOWN = 1;
+    static final int BOT_STEP_LEFT = 2;
+    static final int BOT_STEP_RIGHT = 3;
+    static final int BOT_STEP_FORWARD = 4;
+    static final int BOT_STEP_BACK = 5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,7 +167,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
             tableLayout.addView(tableRow, i);
         }
 
-        positionInLevel = flyPosition %9;
+        positionInLevel = flyPosition % 9;
         int rowItemWithFly = positionInLevel / 3;
         int columnItemWithFly = positionInLevel % 3;
         TableRow rowWithFly = (TableRow) tableLayout.getChildAt(rowItemWithFly);
@@ -184,11 +193,96 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     }
 
     @Override
-    public void upClick() {
+    public void makeBotStep() {
+        Random r = new Random();
+        int randomStep;
+        boolean stepIsNotOver = true;
+
+        while (stepIsNotOver) {
+            randomStep = r.nextInt(6);
+            switch (randomStep) {
+                case BOT_STEP_UP: {
+                    rowPos--;
+                    if (stepNotInBounds()) {
+                        rowPos++;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_up));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+                case BOT_STEP_DOWN: {
+                    rowPos++;
+                    if (stepNotInBounds()) {
+                        rowPos--;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_down));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+                case BOT_STEP_LEFT: {
+                    colPos--;
+                    if (stepNotInBounds()) {
+                        colPos++;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_left));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+                case BOT_STEP_RIGHT: {
+                    colPos++;
+                    if (stepNotInBounds()) {
+                        colPos--;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_right));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+                case BOT_STEP_FORWARD: {
+                    deepPos++;
+                    if (stepNotInBounds()) {
+                        deepPos--;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_forward));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+                case BOT_STEP_BACK: {
+                    deepPos--;
+                    if (stepNotInBounds()) {
+                        deepPos++;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_back));
+                        stepIsNotOver = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean upClick() {
         rowPos--;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition -= 3;
+            return true;
+        }
+    }
+
+    private boolean stepNotInBounds() {
+        return (rowPos >= 3 || rowPos < 0 || colPos >= 3 || colPos < 0 || deepPos >= 3 || deepPos < 0);
     }
 
     private boolean checkBounds() {
@@ -202,46 +296,77 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
     private void endGame() {
         gameoverTxt.setVisibility(View.VISIBLE);
         checkBtn.setVisibility(View.GONE);
+
+        GameoverFragment newFragment = new GameoverFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.gameboard_container_3d, newFragment)
+                .commit();
     }
 
     @Override
-    public void downClick() {
+    public boolean downClick() {
         rowPos++;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_down));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition += 3;
+            return true;
+        }
     }
 
     @Override
-    public void leftClick() {
+    public boolean leftClick() {
         colPos--;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_left));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition -= 1;
+            return true;
+        }
     }
 
     @Override
-    public void rightClick() {
+    public boolean rightClick() {
         colPos++;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_right));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition += 1;
+            return true;
+        }
     }
 
     @Override
-    public void forwardClick() {
+    public boolean forwardClick() {
         deepPos++;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_forward));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition += 9;
+            return true;
+        }
     }
 
     @Override
-    public void backClick() {
+    public boolean backClick() {
         deepPos--;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_back));
-        if (checkBounds())
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
             flyPosition -= 9;
+            return true;
+        }
     }
 }
 

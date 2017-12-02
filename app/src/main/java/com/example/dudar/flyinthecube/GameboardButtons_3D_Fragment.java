@@ -2,6 +2,7 @@ package com.example.dudar.flyinthecube;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ public class GameboardButtons_3D_Fragment extends Fragment {
     //Tag for logging
     private static final String TAG = GameboardButtonsFragment.class.getSimpleName();
 
+    Button upButton,downButton,leftButton,rightButton, backButton,forwardButton;
+
     public GameboardButtons_3D_Fragment() {
     }
 
@@ -37,63 +40,122 @@ public class GameboardButtons_3D_Fragment extends Fragment {
         //Inflate the fragment layout
         View rootView = inflater.inflate(R.layout.fragment_gameboard_3d_buttons, container, false);
 
-        //final ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,GameLogUtils.getLogItems());
         final ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item,R.id.list_item_textview,GameLogUtils.getLogItems());
-        ListView listGameLog = (ListView) rootView.findViewById(R.id.log_list);
+        ListView listGameLog = (ListView) rootView.findViewById(R.id.log_list_3d);
         listGameLog.setAdapter(itemAdapter);
 
+        final ArrayAdapter<String> botAdapter = new ArrayAdapter<String>(getActivity(),R.layout.list_item,R.id.list_item_textview,GameLogUtils.getBotLogItems());
+        ListView listBotLog = (ListView) rootView.findViewById(R.id.log_list_3d_bot);
+        listBotLog.setAdapter(botAdapter);
 
-        Button upButton = (Button) rootView.findViewById(R.id.up_3d_btn);
+
+        upButton = (Button) rootView.findViewById(R.id.up_3d_btn);
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.upClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if (myCallBack.upClick()) {
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+                }
             }
         });
-        Button downButton = (Button)rootView.findViewById(R.id.down_3d_btn);
+        downButton = (Button)rootView.findViewById(R.id.down_3d_btn);
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.downClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if (myCallBack.downClick()){
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+                }
             }
         });
-        Button leftButton = (Button)rootView.findViewById(R.id.left_3d_btn);
+        leftButton = (Button)rootView.findViewById(R.id.left_3d_btn);
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.leftClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if (myCallBack.leftClick()){
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+                }
             }
         });
-        Button rightButton = (Button)rootView.findViewById(R.id.right_3d_btn);
+        rightButton = (Button)rootView.findViewById(R.id.right_3d_btn);
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.rightClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if (myCallBack.rightClick()){
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+
+                }
             }
         });
 
-        Button forwardButton = (Button) rootView.findViewById(R.id.frwd_3d_btn);
+        forwardButton = (Button) rootView.findViewById(R.id.frwd_3d_btn);
         forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.forwardClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if(myCallBack.forwardClick()) {
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+                }
             }
         });
-        Button backButton = (Button) rootView.findViewById(R.id.back_3d_btn);
+        backButton = (Button) rootView.findViewById(R.id.back_3d_btn);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCallBack.backClick();
-                itemAdapter.notifyDataSetChanged();
+                disableButtons();
+                if(myCallBack.backClick()) {
+                    itemAdapter.notifyDataSetChanged();
+                    botAdapter.notifyDataSetChanged();
+                    makeBotNextStep(botAdapter, itemAdapter);
+                }
             }
         });
 
         return rootView;
 
+    }
+
+    private void makeBotNextStep(final ArrayAdapter<String> botAdapter, final ArrayAdapter<String> itemAdapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // do something after 500 miliseconds
+                myCallBack.makeBotStep();
+                botAdapter.notifyDataSetChanged();
+                itemAdapter.notifyDataSetChanged();
+                enableButtons();
+            }
+        }, 500); //Time in milisecond
+    }
+
+    private void disableButtons() {
+        upButton.setEnabled(false);
+        downButton.setEnabled(false);
+        leftButton.setEnabled(false);
+        rightButton.setEnabled(false);
+        backButton.setEnabled(false);
+        forwardButton.setEnabled(false);
+    }
+
+    private void enableButtons(){
+        upButton.setEnabled(true);
+        downButton.setEnabled(true);
+        leftButton.setEnabled(true);
+        rightButton.setEnabled(true);
+        backButton.setEnabled(true);
+        forwardButton.setEnabled(true);
     }
 }

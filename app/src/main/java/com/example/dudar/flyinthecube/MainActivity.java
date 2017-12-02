@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity implements InPlayButtonsFragment.OnPlayButtonClickListener, OnGameboardClickListener {
 
     ImageButton playBtn;
@@ -22,6 +24,12 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
 
     public static final String ROW_ITEM_WITH_FLY = "row_item";
     public static final String COLUMN_ITEM_WITH_FLY = "column_item";
+
+    static final int BOT_STEP_UP = 0;
+    static final int BOT_STEP_DOWN = 1;
+    static final int BOT_STEP_LEFT = 2;
+    static final int BOT_STEP_RIGHT = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
                 .add(R.id.gameboard_container, gbFragment)
                 .commit();
 
-       playBtn = (ImageButton) findViewById(R.id.play_btn);
+        playBtn = (ImageButton) findViewById(R.id.play_btn);
         checkBtn = (ImageButton) findViewById(R.id.check_btn);
         restartBtn = (ImageButton) findViewById(R.id.restart_btn);
         checkBtn.setVisibility(View.GONE);
@@ -55,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
 
         gameoverTxt = (TextView) findViewById(R.id.gameover_text);
         gameoverTxt.setVisibility(View.GONE);
-
 
     }
 
@@ -100,50 +107,129 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
     }
 
     @Override
-    public void upClick() {
-        rowPos--;
-        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
-        checkBounds();
-    }
+    public void makeBotStep() {
+        Random r = new Random();
+        int randomStep;
+        boolean stepIsNotOver = true;
 
-    private void checkBounds() {
-        if(rowPos>=5 || rowPos<0 || colPos >=5 ||colPos <0) {
-            endGame();
+        while (stepIsNotOver) {
+            randomStep = r.nextInt(4);
+            switch (randomStep) {
+                case BOT_STEP_UP: {
+                    rowPos--;
+                    if (stepNotInBounds()) {
+                        rowPos++;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_up));
+                        stepIsNotOver = false;
+                        return;
+                    }
+               }
+                case BOT_STEP_DOWN: {
+                    rowPos++;
+                    if (stepNotInBounds()) {
+                        rowPos--;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_down));
+                        stepIsNotOver = false;
+                        return;
+                    }
+                }
+                case BOT_STEP_LEFT: {
+                    colPos--;
+                    if (stepNotInBounds()) {
+                        colPos++;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_left));
+                        stepIsNotOver = false;
+                        return;
+                    }
+                }
+                case BOT_STEP_RIGHT: {
+                    colPos++;
+                    if (stepNotInBounds()) {
+                        colPos--;
+                        //return;
+                    } else {
+                        GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_right));
+                        stepIsNotOver = false;
+                        return;
+                    }
+                }
+            }
         }
     }
 
+
+    /*public void upClick() {
+        rowPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
+        stepNotInBounds();
+    }*/
+    @Override
+    public boolean upClick() {
+        rowPos--;
+        GameLogUtils.addLogItem(getResources().getString(R.string.game_action_up));
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean stepNotInBounds() {
+        return (rowPos >= 5 || rowPos < 0 || colPos >= 5 || colPos < 0);
+    }
+
     private void endGame() {
-         gameoverTxt.setVisibility(View.VISIBLE);
+        gameoverTxt.setVisibility(View.VISIBLE);
         checkBtn.setVisibility(View.GONE);
 
+        GameoverFragment newFragment = new GameoverFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        GameboardFragment newFragment = new GameboardFragment();
-        newFragment.setRowItemWithFly(2);
-        newFragment.setColumnItemWithFly(5);
         fragmentManager.beginTransaction()
                 .replace(R.id.gameboard_container, newFragment)
                 .commit();
     }
 
     @Override
-    public void downClick() {
+    public boolean downClick() {
         rowPos++;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_down));
-        checkBounds();
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
-    public void leftClick() {
+    public boolean leftClick() {
         colPos--;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_left));
-        checkBounds();
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
-    public void rightClick() {
+    public boolean rightClick() {
         colPos++;
         GameLogUtils.addLogItem(getResources().getString(R.string.game_action_right));
-        checkBounds();
+        if (stepNotInBounds()) {
+            endGame();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -163,9 +249,9 @@ public class MainActivity extends AppCompatActivity implements InPlayButtonsFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.action_3d:
-                Intent newActivity = new Intent(this,Cube3DActivity.class);
+                Intent newActivity = new Intent(this, Cube3DActivity.class);
                 startActivity(newActivity);
                 return true;
             case android.R.id.home:

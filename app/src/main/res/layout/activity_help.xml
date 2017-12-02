@@ -38,6 +38,41 @@
             android:layout_height="wrap_content"
             android:text="@string/help_player" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_padding"
+                android:src="@drawable/ic_check_holo"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="@dimen/base_margin"/>
+            <TextView
+                style="@style/HelpText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_check"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/base_padding"
+                android:src="@drawable/ic_restart_holo"
+                android:background="@color/colorPrimary"
+                android:layout_marginLeft="@dimen/base_margin"/>
+            <TextView
+                style="@style/HelpText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_restart"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

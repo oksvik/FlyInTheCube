@@ -9,16 +9,28 @@ import java.util.ArrayList;
 public class GameLogUtils {
 
     private static ArrayList<String> gameLogArray = new ArrayList<String>();
+    private static ArrayList<String> botLogArray = new ArrayList<String>();
 
-    public static ArrayList<String> getLogItems ()
-    {
+    static ArrayList<String> getLogItems() {
         return gameLogArray;
     }
 
-    public static void addLogItem (String str)
-    {
-        gameLogArray.add(0,str);
+    static ArrayList<String> getBotLogItems() {
+        return botLogArray;
     }
 
-    public static void clearLog(){gameLogArray.clear();}
+    static void addLogItem(String str) {
+        gameLogArray.add(0, str);
+        botLogArray.add(0,"");
+    }
+
+    static void addBotLogItem(String str) {
+        botLogArray.add(0, str);
+        gameLogArray.add(0,"");
+    }
+
+    static void clearLog() {
+        gameLogArray.clear();
+        botLogArray.clear();
+    }
 }

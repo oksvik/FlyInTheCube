@@ -5,12 +5,14 @@ package com.example.dudar.flyinthecube;
  */
 
 public interface OnGameboard3DClickListener {
-    void upClick();
-    void downClick();
-    void leftClick();
-    void rightClick();
+    boolean upClick();
+    boolean downClick();
+    boolean leftClick();
+    boolean rightClick();
 
-    void forwardClick();
-    void backClick();
+    boolean forwardClick();
+    boolean backClick();
+
+    void makeBotStep();
 }
 
