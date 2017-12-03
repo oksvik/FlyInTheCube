@@ -207,6 +207,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         rowPos++;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_up));
+                        flyPosition -= 3;
                         stepIsNotOver = false;
                         break;
                     }
@@ -218,6 +219,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         //return;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_down));
+                        flyPosition += 3;
                         stepIsNotOver = false;
                         break;
                     }
@@ -229,6 +231,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         //return;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_left));
+                        flyPosition -= 1;
                         stepIsNotOver = false;
                         break;
                     }
@@ -240,6 +243,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         //return;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_right));
+                        flyPosition += 1;
                         stepIsNotOver = false;
                         break;
                     }
@@ -250,6 +254,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         deepPos--;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_forward));
+                        flyPosition += 9;
                         stepIsNotOver = false;
                         break;
                     }
@@ -260,6 +265,7 @@ public class Cube3DActivity extends AppCompatActivity implements InPlayButtonsFr
                         deepPos++;
                     } else {
                         GameLogUtils.addBotLogItem(getResources().getString(R.string.game_action_back));
+                        flyPosition -= 9;
                         stepIsNotOver = false;
                         break;
                     }
